@@ -1,7 +1,9 @@
 package org.example;
 
 
+import org.example.model.Job;
 import org.example.model.Student;
+import org.example.repository.JobRepository;
 import org.example.repository.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +19,7 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
+    CommandLineRunner commandLineRunner(StudentRepository studentRepository, JobRepository jobRepository) {
         return args -> {
             Student maria = new Student(
                     "Maria",
@@ -38,9 +40,30 @@ public class Application {
 
             System.out.println(studentRepository.findAll());
 
+            Job student = new Job("student", 0.00, 100.00);
+            Job intern = new Job("intern", 0.00, 100.00);
+            Job juniorDev = new Job("junior developer", 1000.00, 2000.00);
+            jobRepository.saveAll(List.of(student, intern, juniorDev));
+
+            System.out.println(jobRepository.findAll());
+
         };
+
     }
 
+//    @Bean
+//    CommandLineRunner createJobs(JobRepository jobRepository) {
+//
+//        return args -> {
+//
+//            Job student = new Job("student", 0.00, 100.00);
+//            Job intern = new Job("intern", 0.00, 100.00);
+//            Job juntiorDev = new Job("junior developer", 1000.00, 2000.00);
+//            jobRepository.saveAll(List.of());
+//
+//            System.out.println(jobRepository.findAll());
+//        };
+//    }
 
 }
 
