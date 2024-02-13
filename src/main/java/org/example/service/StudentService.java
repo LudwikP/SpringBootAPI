@@ -47,6 +47,8 @@ public class StudentService {
 
     public void insertStudent(Student student) {
 
+        checkIfEmailPatternCorrect(student.getEmail());
+
         Optional<Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
 
         if (studentOptional.isPresent()) {
@@ -105,5 +107,28 @@ public class StudentService {
             throw new IllegalStateException("Cannot update email " + email + " is taken");
         }
         ;
+    }
+
+    public Student getStudentById(Long id) {
+
+        Optional<Student> studentOptional = studentRepository.findStudentById(id);
+
+        if(studentOptional.isEmpty())
+        {
+            throw new IllegalStateException("No student found");
+        }
+
+        return studentOptional.get();
+
+    }
+
+    public List<Student> getStudentsByLastName(String lastName) {
+
+        Optional<List<Student>> studentsOptional = studentRepository.findStudentsByLastName(lastName);
+        if(studentsOptional.isEmpty()) {
+            throw new IllegalStateException("No students with the last name of " + lastName);
+
+        }
+        return studentsOptional.get();
     }
 }
