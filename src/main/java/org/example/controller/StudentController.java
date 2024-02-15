@@ -5,6 +5,7 @@ import org.example.service.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.example.model.Student;
@@ -23,13 +24,20 @@ public class StudentController {
     StudentService studentService;
 
     @RequestMapping(path = "api/v1/student", method = RequestMethod.GET)
+    public ResponseEntity<String> getWelcome() {
+
+        logger.info("received get all students request");
+        return ResponseEntity.ok("This is Students service");
+
+    }
+
+    @RequestMapping(path = "api/v1/student/all", method = RequestMethod.GET)
     public List<Student> getAllStudents() {
 
         logger.info("received get all students request");
         return studentService.getStudents();
 
     }
-
 
     @RequestMapping(path = "api/v1/student/{id}", method = RequestMethod.GET)
     public Student getStudentById(@PathVariable Long id) {
